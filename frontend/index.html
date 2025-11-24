@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildlife Sighting Reporter</title>
+    <style>
+        /* Include all the CSS styles from previous version */
+        /* ... your existing CSS ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Wildlife Sighting Reporter</h1>
+            <p class="subtitle">Help track local wildlife by reporting your sightings</p>
+        </header>
+
+        <div id="apiStatus" class="api-status"></div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="report">Report Sighting</button>
+            <button class="tab" data-tab="view">View Sightings</button>
+        </div>
+
+        <!-- Include all your HTML form and content from previous version -->
+        <!-- ... your existing HTML ... -->
+    </div>
+
+    <script>
+        // Dynamic API URL - will be set based on environment
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : 'https://your-backend-url.onrender.com/api';
+
+        // Update frontend JavaScript to use the dynamic API_BASE_URL
+        // ... rest of your existing JavaScript ...
+        
+        // Add this function to check API connection
+        async function checkApiConnection() {
+            const statusElement = document.getElementById('apiStatus');
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusElement.textContent = '✅ Connected to Wildlife Sighting API';
+                    statusElement.className = 'api-status connected';
+                } else {
+                    throw new Error('API health check failed');
+                }
+            } catch (error) {
+                statusElement.textContent = '❌ Cannot connect to Wildlife Sighting API';
+                statusElement.className = 'api-status error';
+                console.error('API connection error:', error);
+            }
+        }
+
+        // Initialize the app
+        window.onload = function() {
+            setDateTime();
+            getLocation();
+            checkApiConnection();
+        };
+    </script>
+</body>
+</html>
